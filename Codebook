@@ -1,0 +1,6 @@
+1. In the first step the files are downloaded from the website provided in the assignment. These files are then unzipped.
+2. The unzipped files are then read into tables. 
+3. The datasets are merged to first in tables Train and Test. Then combined together to make table meanstd.
+4. Variables names are editted for readability. 
+5. Final data set is created where they are grouped by subject and activity, and then averaged.
+6. In the final step the a table is created as a txt file.
