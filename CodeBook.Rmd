@@ -1,0 +1,37 @@
+---
+title: "CodeBook"
+author: "R Varkevisser"
+date: "25/06/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## CodeBook Getting and Cleaning Data
+
+The data used is from the UCI machine learning repository. http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+The run_analysis.R script performs the data downloading, tidying, and creates a new table. 
+
+1. The data is firstly downloaded, zip files are unzipped, and the data are read.
+2. Downloaded data are read in. Features contains the different measurement features, activities contains 6 levels of activity (i.e. walking, standing, etc), the test and train data contain information on the training and test data per subject.
+```
+features <- read.table("UCI HAR Dataset/features.txt", header=F, col.names=c("featurecode", "feature"))
+activities <- read.table("UCI HAR Dataset/activity_labels.txt", header=F, col.names=c("activitycode", "activity"))
+subject_test <- read.table("UCI HAR Dataset/test/subject_test.txt", header=F, col.names="subject")
+x_test <- read.table("UCI HAR Dataset/test/X_test.txt", header=F, col.names = features$feature)
+y_test <- read.table("UCI HAR Dataset/test/Y_test.txt", header=F, col.names="activitycode")
+subject_train <- read.csv("UCI HAR Dataset/train/subject_train.txt", header=F, col.names="subject")
+x_train <- read.table("UCI HAR Dataset/train/X_train.txt", header=F, col.names=features$feature)
+y_train <- read.table("UCI HAR Dataset/train/Y_train.txt", header=F, col.names = "activitycode")
+```
+3. Data are then merged, first by Train and Test, then all together.
+```
+Train <- cbind(subject_train, y_train, x_train)
+Test <- cbind(subject_test, y_test, x_test)
+Complete <- rbind(Train, Test)
+```
+4. Labels are renamed for readability. 
+5. A new dataset is selected by group and activity, and each variable is averaged.
+6. A table is made for the new data and is saved as a txt file.
+
